@@ -30,15 +30,15 @@ This is a fork of @CLong's original DetectionLab project that has been modified 
 between this version of DetectionLab, and @CLong's. I'll detail a few of them below:
 
 * You'll need to pre-configure VM templates. For my personal needs, I have the following:
-** 1x Windows Server 2019 VM template which is used for the domain controller and wef VMs
-** 1x Windows 10 VM template
-** 1x Ubuntu 20.04 VM template
+  - 1x Windows Server 2019 VM template which is used for the domain controller and wef VMs
+  - 1x Windows 10 VM template
+  - 1x Ubuntu 20.04 VM template
 * Each VM template comes pre-installed with qemu-guest-agent... if you don't include it, terraform won't output the "public" IPs. Also, VM cloning will take forever because Proxmox will try for about 10 minutes to retrieve the IPs before timing out.
 * Further, some of the code that @CLong included as a remote provisioner in his Terraform has been moved in to cloud-init configuration files. This was done because I wanted to learn more about cloud-init rather than a practical/impactful need.
 
 There are a few places you'll need to modify a few values.
 * Make a copy of variables.example and rename it to variables.tf
-** Retrieve and enter the proper values for the variables in variables.tf - you'll need to create an API key on your Proxmox server... I recommend creating a dedicated terraform user on your Proxmox server, then creating the API key for it.
+  - Retrieve and enter the proper values for the variables in variables.tf - you'll need to create an API key on your Proxmox server... I recommend creating a dedicated terraform user on your Proxmox server, then creating the API key for it.
 * I have set each VM resource to receive IPs for DHCP rather than statically assign them. For the "public IP" (eth0 on the Linux VM, or the first Ethernet adapter on the Windows VMs), this is fine. Where this may mess you up is on the secondary adapter that the DetectionLab VMs use to communicate amongst themselves... @CLong has hardcoded the IPs in the scripts that perform the actual configuration (i.e. what gets run by ansible/vagrant). You can either add the appropriate IPs for static issuance in your DHCP server (which is what I have done), or hard code the appropriate IPs on the secondary NIC for each VM resource.
 * Finally, change the target node that's listed in each VM resource. I call my Proxmox node "pve-node1", but you may call yours something different...
 
