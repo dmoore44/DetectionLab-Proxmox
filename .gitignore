@@ -1,0 +1,17 @@
+Vagrant/.vagrant/*
+Vagrant/vagrant*.log
+.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+*.log
+.terraform.lock.hcl
+variables.tf
+.DS_Store
+.git/*
+.terraform.lock.hcl
+files/user_data_dc.cfg
+files/user_data_wef.cfg
+files/user_data_win10.cfg
+files/user_data_logger.cfg
